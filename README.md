@@ -1,4 +1,4 @@
-# MichaelTheMaker – Webová prezentace
+# MichaelTheMaker
 
 Osobní webová prezentace zaměřená na zakázkové **laserové gravírování** a **3D tisk**. Stránka slouží jako digitální vizitka, portfolio a kontaktní bod pro potenciální zákazníky.
 
