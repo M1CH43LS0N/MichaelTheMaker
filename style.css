@@ -1,0 +1,662 @@
+/* ============================================================
+   style.css – MichaelTheMaker
+   MOBILE FIRST: base styles target small screens (320px+).
+   Enhancements are layered on top with min-width breakpoints:
+     @media (min-width: 480px)  – large phones / small tablets
+     @media (min-width: 640px)  – landscape phones / small tablets
+     @media (min-width: 768px)  – tablets
+     @media (min-width: 1024px) – desktops
+   Palette: warm amber wood + deep charcoal + hot-filament orange
+============================================================ */
+
+/* ── DESIGN TOKENS ──────────────────────────────────────────
+   All colours, fonts, and spacing live here as CSS variables.
+─────────────────────────────────────────────────────────── */
+:root {
+  --clr-bg:       #0f0e0c;
+  --clr-surface:  #1a1814;
+  --clr-wood:     #c8874a;
+  --clr-glow:     #ff6b1a;
+  --clr-text:     #e8ddd0;
+  --clr-muted:    #7a6e63;
+  --clr-border:   #2e2a24;
+
+  --font-display: 'Bebas Neue', sans-serif;
+  --font-body:    'DM Sans', sans-serif;
+
+  --radius:       6px;
+  --transition:   0.35s cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Fluid section padding: 3rem on mobile → 7rem on desktop */
+  --section-gap: clamp(3rem, 8vw, 7rem);
+
+  /* WCAG 2.5.5 minimum touch target size */
+  --tap-min: 44px;
+}
+
+/* ── RESET & BASE ───────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--clr-bg);
+  color: var(--clr-text);
+  font-size: clamp(1rem, 2.5vw, 1.125rem);
+  line-height: 1.7;
+  overflow-x: hidden;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+}
+
+/* Limit line length for readability on wide screens,
+   but only for body-text paragraphs — not structural/layout ones */
+p:not([class]):not([style]), li { max-width: 70ch; }
+
+/* ── SCROLL-REVEAL ANIMATIONS ───────────────────────────────
+   Wrapped in prefers-reduced-motion so users who have requested
+   less motion on their device don't see the animations at all.
+─────────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: no-preference) {
+  .reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.7s var(--transition), transform 0.7s var(--transition);
+  }
+
+  .reveal-stagger > * {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.6s var(--transition), transform 0.6s var(--transition);
+  }
+}
+
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+.reveal-stagger.visible > *:nth-child(1) { transition-delay: 0.05s; opacity: 1; transform: none; }
+.reveal-stagger.visible > *:nth-child(2) { transition-delay: 0.15s; opacity: 1; transform: none; }
+.reveal-stagger.visible > *:nth-child(3) { transition-delay: 0.25s; opacity: 1; transform: none; }
+.reveal-stagger.visible > *:nth-child(4) { transition-delay: 0.35s; opacity: 1; transform: none; }
+.reveal-stagger.visible > *:nth-child(5) { transition-delay: 0.45s; opacity: 1; transform: none; }
+.reveal-stagger.visible > *:nth-child(6) { transition-delay: 0.55s; opacity: 1; transform: none; }
+
+/* ── LAYOUT HELPERS ─────────────────────────────────────── */
+.container {
+  width: min(1140px, 92vw);
+  margin-inline: auto;
+}
+
+section { padding-block: var(--section-gap); }
+
+.section-label {
+  font-family: var(--font-display);
+  font-size: 0.8rem;
+  letter-spacing: 0.25em;
+  color: var(--clr-glow);
+  text-transform: uppercase;
+  margin-bottom: 0.75rem;
+}
+
+.section-title {
+  font-family: var(--font-display);
+  font-size: clamp(2.2rem, 6vw, 4.5rem);
+  line-height: 1;
+  color: var(--clr-text);
+  margin-bottom: 1.25rem;
+}
+
+.section-title span { color: var(--clr-wood); }
+
+.divider {
+  width: 50px;
+  height: 3px;
+  background: linear-gradient(90deg, var(--clr-glow), var(--clr-wood));
+  border-radius: 2px;
+  margin-bottom: 1.75rem;
+}
+
+/* ── HEADER / NAVIGATION ────────────────────────────────────
+   Mobile first: logo + hamburger button.
+   Desktop (≥768px): logo + horizontal nav links.
+─────────────────────────────────────────────────────────── */
+header {
+  position: fixed;
+  top: 0;
+  inset-inline: 0;
+  z-index: 200;
+  background: rgba(15, 14, 12, 0.88);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--clr-border);
+}
+
+nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: min(1140px, 92vw);
+  margin-inline: auto;
+  min-height: 60px;
+  padding-block: 0.75rem;
+}
+
+.nav-logo {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  letter-spacing: 0.05em;
+  color: var(--clr-text);
+  text-decoration: none;
+  padding-block: 0.25rem;
+  z-index: 201;
+}
+
+.nav-logo span { color: var(--clr-glow); }
+
+/* ── HAMBURGER BUTTON ──
+   Visible on mobile. Hidden on desktop (≥768px).
+   Three <span> bars animated to X when .open is applied.
+─────────────────────────────────────────────────────────── */
+.nav-toggle {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 28px;
+  height: 20px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  /* Extra padding for a proper 44px tap target without affecting layout */
+  padding: 12px;
+  margin: -12px;
+  box-sizing: content-box;
+  z-index: 201;
+}
+
+.nav-toggle span {
+  display: block;
+  width: 28px;
+  height: 2px;
+  background: var(--clr-text);
+  border-radius: 2px;
+  transition: transform 0.3s var(--transition), opacity 0.3s;
+  pointer-events: none;
+}
+
+/* Hamburger → X animation */
+.nav-toggle.open span:nth-child(1) { transform: translateY(9px) rotate(45deg); }
+.nav-toggle.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+.nav-toggle.open span:nth-child(3) { transform: translateY(-9px) rotate(-45deg); }
+
+/* ── MOBILE MENU PANEL ──
+   Slides down from the header. Controlled by the .open class
+   that script.js toggles. Hidden by default (max-height: 0).
+─────────────────────────────────────────────────────────── */
+.nav-links {
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 60px;
+  left: 0;
+  right: 0;
+  background: rgba(15, 14, 12, 0.97);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--clr-border);
+  list-style: none;
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  pointer-events: none;
+  transition: max-height 0.4s var(--transition), opacity 0.3s var(--transition);
+}
+
+.nav-links.open {
+  max-height: 400px;
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.nav-links li { border-bottom: 1px solid var(--clr-border); }
+.nav-links li:last-child { border-bottom: none; }
+
+.nav-links a {
+  display: flex;
+  align-items: center;
+  padding: 1rem 1.25rem;
+  color: var(--clr-muted);
+  text-decoration: none;
+  font-size: 1rem;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  min-height: var(--tap-min);
+  transition: color var(--transition), background var(--transition);
+}
+
+.nav-links a:hover,
+.nav-links a:focus-visible {
+  color: var(--clr-wood);
+  background: rgba(200,135,74,0.06);
+}
+
+/* ── DESKTOP NAV (≥768px) ──
+   Convert the vertical panel back to a horizontal row.
+─────────────────────────────────────────────────────────── */
+@media (min-width: 768px) {
+  .nav-toggle { display: none; }
+
+  .nav-links {
+    position: static;
+    flex-direction: row;
+    background: none;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    border: none;
+    max-height: none;
+    opacity: 1;
+    pointer-events: auto;
+    overflow: visible;
+    gap: 2rem;
+    transition: none;
+  }
+
+  .nav-links li { border: none; }
+
+  .nav-links a {
+    padding: 0;
+    min-height: auto;
+    font-size: 0.9rem;
+    display: inline;
+  }
+}
+
+/* ── HERO SECTION ───────────────────────────────────────── */
+#hero {
+  min-height: 100svh;
+  display: grid;
+  place-items: center;
+  position: relative;
+  overflow: hidden;
+  padding-top: 60px;   /* clear the fixed 60px header */
+  padding-inline: 1rem;
+}
+
+/* Radial glow orb – scales down on mobile so it doesn't overwhelm */
+#hero::before {
+  content: '';
+  position: absolute;
+  width: clamp(280px, 80vw, 700px);
+  height: clamp(280px, 80vw, 700px);
+  background: radial-gradient(circle, rgba(255,107,26,0.18) 0%, transparent 70%);
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  animation: pulse 6s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: translate(-50%,-50%) scale(1);    opacity: 0.8; }
+  50%       { transform: translate(-50%,-50%) scale(1.15); opacity: 1;   }
+}
+
+/* Laser scan line */
+#hero::after {
+  content: '';
+  position: absolute;
+  left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--clr-glow), transparent);
+  animation: scan 4s ease-in-out infinite;
+  opacity: 0.4;
+}
+
+@keyframes scan {
+  0%   { top: 20%; opacity: 0; }
+  20%  { opacity: 0.6; }
+  80%  { opacity: 0.6; }
+  100% { top: 80%; opacity: 0; }
+}
+
+.hero-content {
+  position: relative;
+  text-align: center;
+  z-index: 1;
+  width: 100%;
+}
+
+.hero-tagline {
+  display: inline-block;
+  font-family: var(--font-body);
+  font-size: clamp(0.7rem, 2.5vw, 1rem);
+  font-weight: 300;
+  letter-spacing: 0.2em;
+  color: var(--clr-glow);
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+  animation: fadeUp 0.8s 0.2s both;
+}
+
+/* Fluid brand name: 3rem on smallest phone → 11rem on wide desktop */
+.hero-name {
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 16vw, 11rem);
+  line-height: 0.9;
+  letter-spacing: -0.01em;
+  background: linear-gradient(135deg, var(--clr-text) 40%, var(--clr-wood) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: fadeUp 0.9s 0.4s both;
+}
+
+.hero-sub {
+  margin-top: 1.25rem;
+  font-size: clamp(0.95rem, 2.5vw, 1.2rem);
+  color: var(--clr-muted);
+  max-width: 500px;
+  margin-inline: auto;
+  padding-inline: 0.5rem;
+  animation: fadeUp 0.9s 0.6s both;
+}
+
+/* Full-width tap-friendly CTA on small phones */
+.hero-cta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 280px;
+  margin-top: 2rem;
+  margin-inline: auto;
+  padding: 1rem 2rem;
+  background: var(--clr-glow);
+  color: #fff;
+  text-decoration: none;
+  font-weight: 700;
+  border-radius: var(--radius);
+  letter-spacing: 0.06em;
+  font-size: 1rem;
+  min-height: var(--tap-min);
+  transition: background var(--transition), transform 0.2s;
+  animation: fadeUp 0.9s 0.8s both;
+}
+
+.hero-cta:hover { background: var(--clr-wood); transform: translateY(-2px); }
+
+/* Shrink to auto-width on larger phones */
+@media (min-width: 480px) {
+  .hero-cta { display: inline-flex; width: auto; max-width: none; }
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── SERVICES ───────────────────────────────────────────── */
+#services { background: var(--clr-surface); }
+
+/* Mobile: 1 column → 2 columns when there's room for 280px cols */
+.services-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.25rem;
+  margin-top: 2rem;
+}
+
+@media (min-width: 640px) {
+  .services-grid {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.75rem;
+  }
+}
+
+.service-card {
+  border: 1px solid var(--clr-border);
+  border-radius: 8px;
+  padding: 1.75rem;
+  position: relative;
+  overflow: hidden;
+  transition: border-color var(--transition), transform var(--transition);
+}
+
+/* When .service-card is an <a> tag (clickable card), reset link defaults */
+a.service-card {
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+}
+
+.service-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--clr-glow), var(--clr-wood));
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--transition);
+}
+
+.service-card:hover::before,
+.service-card:focus-within::before { transform: scaleX(1); }
+
+.service-card:hover,
+.service-card:focus-within {
+  border-color: var(--clr-wood);
+  transform: translateY(-3px);
+}
+
+.service-icon {
+  font-size: 2.4rem;
+  margin-bottom: 1rem;
+  display: block;
+}
+
+.service-card h3 {
+  font-family: var(--font-display);
+  font-size: 1.8rem;
+  color: var(--clr-wood);
+  margin-bottom: 0.75rem;
+}
+
+.service-card p { color: var(--clr-muted); font-size: 0.95rem; }
+
+.service-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 1.25rem;
+}
+
+.tag {
+  padding: 0.3rem 0.7rem;
+  border: 1px solid var(--clr-border);
+  border-radius: 100px;
+  font-size: 0.78rem;
+  color: var(--clr-muted);
+  letter-spacing: 0.04em;
+}
+
+/* ── GALLERY ────────────────────────────────────────────────
+   1 col on mobile → 2 cols at 480px → 3 cols at 900px.
+   To add real photos replace each placeholder div's style:
+     style="background-image: url('assets/photo.jpg');
+            background-size: cover; background-position: center;"
+   and remove the two placeholder <span> elements inside.
+─────────────────────────────────────────────────────────── */
+.gallery-intro { max-width: 600px; color: var(--clr-muted); }
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+@media (min-width: 480px) {
+  .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (min-width: 900px) {
+  .gallery-grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+.gallery-item {
+  aspect-ratio: 4/3;
+  border-radius: 6px;
+  border: 1px solid var(--clr-border);
+  background: var(--clr-surface);
+  position: relative;
+  overflow: hidden;
+  transition: transform var(--transition), box-shadow var(--transition);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 0.5rem;
+  color: var(--clr-muted);
+  font-size: 0.85rem;
+  text-align: center;
+  padding: 1rem;
+}
+
+.gallery-item .placeholder-icon { font-size: 2rem; }
+
+.gallery-item::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255,107,26,0.1), transparent);
+  opacity: 0;
+  transition: opacity var(--transition);
+}
+
+.gallery-item:hover { transform: scale(1.025); box-shadow: 0 8px 40px rgba(255,107,26,0.15); }
+.gallery-item:hover::after { opacity: 1; }
+
+/* ── REPOSITORIES ───────────────────────────────────────── */
+#repos { background: var(--clr-surface); }
+
+.repos-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+@media (min-width: 640px) {
+  .repos-grid { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.25rem; }
+}
+
+.repo-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  padding: 1.5rem;
+  border: 1px solid var(--clr-border);
+  border-radius: 8px;
+  text-decoration: none;
+  color: var(--clr-text);
+  min-height: var(--tap-min);
+  transition: border-color var(--transition), background var(--transition), transform var(--transition);
+}
+
+.repo-card:hover,
+.repo-card:focus-visible {
+  border-color: var(--clr-glow);
+  background: rgba(255,107,26,0.05);
+  transform: translateY(-3px);
+}
+
+.repo-card .repo-icon  { font-size: 1.6rem; }
+.repo-card .repo-name  { font-family: var(--font-display); font-size: 1.2rem; color: var(--clr-wood); }
+.repo-card .repo-desc  { font-size: 0.85rem; color: var(--clr-muted); flex: 1; }
+
+/* .repo-arrow used in both repo-cards and service-cards */
+.repo-arrow {
+  font-size: 0.9rem;
+  color: var(--clr-glow);
+  align-self: flex-end;
+  transition: transform var(--transition);
+}
+
+.repo-card .repo-arrow { font-size: 1.1rem; }
+.repo-card:hover .repo-arrow,
+.service-card:hover .repo-arrow { transform: translate(4px, -4px); }
+
+/* ── SOCIAL ─────────────────────────────────────────────── */
+.social-wrapper {
+  margin-top: 2rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: center;
+}
+
+/* Full-width on small phones; auto-width on larger screens */
+.social-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+  padding: 1rem 1.5rem;
+  border: 1px solid var(--clr-border);
+  border-radius: 8px;
+  text-decoration: none;
+  color: var(--clr-text);
+  font-weight: 500;
+  font-size: 1rem;
+  min-height: var(--tap-min);
+  transition: border-color var(--transition), background var(--transition), transform var(--transition);
+}
+
+@media (min-width: 480px) {
+  .social-btn { width: auto; }
+}
+
+.social-btn.instagram:hover,
+.social-btn.instagram:focus-visible {
+  border-color: #e1306c;
+  background: rgba(225,48,108,0.08);
+  transform: translateY(-2px);
+}
+
+.social-btn .social-icon { flex-shrink: 0; }
+
+/* ── CONTACT ────────────────────────────────────────────────
+   Single-column layout with contact details only.
+─────────────────────────────────────────────────────────── */
+#contact { background: var(--clr-surface); }
+
+.contact-info { max-width: 540px; margin-top: 2rem; }
+
+.contact-info p { color: var(--clr-muted); margin-bottom: 1.25rem; }
+
+.contact-detail {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.85rem;
+  color: var(--clr-muted);
+  font-size: 0.95rem;
+  min-height: var(--tap-min);
+}
+
+.contact-detail a { color: var(--clr-wood); text-decoration: none; transition: color var(--transition); }
+.contact-detail a:hover,
+.contact-detail a:focus-visible { color: var(--clr-glow); }
+
+/* ── FOOTER ─────────────────────────────────────────────── */
+footer {
+  padding: 2rem 1rem;
+  border-top: 1px solid var(--clr-border);
+  text-align: center;
+}
+
+footer p { color: var(--clr-muted); font-size: 0.85rem; letter-spacing: 0.04em; }
+footer span { color: var(--clr-wood); }
+
+/* ── GLOBAL FOCUS RING ──────────────────────────────────── */
+:focus-visible { outline: 2px solid var(--clr-wood); outline-offset: 3px; }

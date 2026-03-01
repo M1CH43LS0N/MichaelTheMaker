@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MichaelTheMaker – Laserové gravírování a 3D tisk</title>
+
+  <!-- Google Fonts: Bebas Neue (display headlines) + DM Sans (body text) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,500;0,9..40,700;1,9..40,300&display=swap" rel="stylesheet" />
+
+  <!-- External stylesheet – all visual styles live in style.css -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ============================================================
+       STICKY NAVIGATION BAR
+       Fixed at the top of the page with a glassmorphism background.
+       Each link scrolls to its matching section ID.
+  ============================================================ -->
+  <header>
+    <nav>
+      <!-- Brand logo – clicking it scrolls back to the hero -->
+      <a href="#hero" class="nav-logo">Michael<span>TheMaker</span></a>
+
+      <!-- ── HAMBURGER BUTTON (mobile only, hidden on desktop via CSS) ──
+           aria-expanded is toggled by script.js when the menu opens/closes.
+           aria-controls links the button to the nav panel it controls. -->
+      <button class="nav-toggle" aria-label="Otevřít menu" aria-expanded="false" aria-controls="nav-menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+      <!-- Anchor navigation links
+           id="nav-menu" matches aria-controls on the button above -->
+      <ul class="nav-links" id="nav-menu" role="list">
+        <li><a href="#services">Služby</a></li>
+        <li><a href="#gallery">Galerie</a></li>
+        <li><a href="#repos">Repozitáře</a></li>
+        <li><a href="#social">Sociální sítě</a></li>
+        <li><a href="#contact">Kontakt</a></li>
+      </ul>
+    </nav>
+  </header>
+
+
+  <!-- ============================================================
+       1. HERO – BRAND NAME
+       Full-screen intro section with:
+         - Animated tagline
+         - Giant gradient brand name "MichaelTheMaker"
+         - Sub-headline
+         - CTA button linking to the contact section
+  ============================================================ -->
+  <section id="hero">
+    <div class="hero-content">
+      <!-- Small animated label above the brand name -->
+      <p class="hero-tagline">Laserové gravírování a 3D tisk</p>
+
+      <!-- Primary brand name – styled with CSS gradient text -->
+      <h1 class="hero-name">MichaelTheMaker</h1>
+
+      <!-- Brief value proposition -->
+      <p class="hero-sub">
+      3D tisk a gravírování jsou moje vášeň, kterou měním v realitu podle vašich představ.
+      Nejraději pro vás proměňuji hotové modely – ať už z repozitářů, nebo ty, které si sami navrhnete.
+      A když máte v hlavě něco speciálního, co nikde jinde není? Stačí napsat a vymyslíme, jak to společně dáme do kupy.
+      </p>
+
+      <!-- Call-to-action – jumps to the contact/order form -->
+      <a href="#contact" class="hero-cta">Nezávazně poptat →</a>
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       2. SERVICES – DESCRIPTION OF PROVIDED SERVICES
+       Two cards describing each core service.
+       The grid and cards animate in on scroll (.reveal-stagger).
+  ============================================================ -->
+  <section id="services">
+    <div class="container">
+
+      <!-- Section heading block – fades up on scroll -->
+      <div class="reveal">
+        <p class="section-label">Co nabízím</p>
+        <h2 class="section-title">Moje <span>služby</span></h2>
+        <div class="divider"></div>
+        <p style="color: var(--clr-muted); max-width:580px;">
+          Sháníte kreativní hračky pro Vaše ratolesti, stylový stojánek na mobil, nebo dřevěné hodiny s fotkou pro Vaše blízké? 
+          Stačí říct – s mou technikou se meze nekladou a vytvořím přesně to, co hledáte.
+        </p>
+      </div>
+
+      <!-- Cards animate in one-by-one (staggered) when scrolled into view -->
+      <div class="services-grid reveal-stagger">
+
+        <!-- Card 1: Laser Engraving – links to material overview -->
+        <a href="https://www.mimowork.com/cs/your-business/material-overview/" target="_blank" rel="noopener" class="service-card">
+          <span class="service-icon">🔥</span>
+          <h3>Laserové gravírování</h3>
+          <p>
+            Gravírování a vypalování vzorů, nápisů nebo fotografií do dřeva,
+            překližky, kůže a dalších materiálů. Ideální pro
+            personalizované dárky, dekorace nebo nápisy.
+          </p>
+          <span class="repo-arrow" style="margin-top:1rem;">Přehled materiálů ↗</span>
+        </a>
+
+        <!-- Card 2: 3D Printing – links to Prusa material guide -->
+        <a href="https://help.prusa3d.com/cs/category/pruvodce-materialy_220" target="_blank" rel="noopener" class="service-card">
+          <span class="service-icon">⚙️</span>
+          <h3>3D tisk</h3>
+          <p>
+            Tisk funkčních prototypů, designových doplňků, náhradních dílů
+            i unikátních dekorativních předmětů. Pracuji s PLA, PETG a dalšími
+            filamentovými materiály.
+          </p>
+          <span class="repo-arrow" style="margin-top:1rem;">Průvodce materiály ↗</span>
+        </a>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       3. GALLERY – PHOTOS OF PREVIOUS CREATIONS
+       Real photos loaded from the /assets folder.
+
+       HOW TO ADD MORE PHOTOS:
+         1. Copy your image into the /assets folder
+         2. Add a new .gallery-item div with:
+              style="background-image: url('assets/your-photo.jpg');
+                     background-size: cover;
+                     background-position: center;"
+  ============================================================ -->
+  <section id="gallery">
+    <div class="container">
+
+      <div class="reveal">
+        <p class="section-label">Moje práce</p>
+        <h2 class="section-title">Galerie <span>výtvorů</span></h2>
+        <div class="divider"></div>
+        <p class="gallery-intro">
+          Ukázky dokončených projektů – od personalizovaných dárkových předmětů
+          po funkční 3D výtisky a gravírované dřevěné dekorace.
+        </p>
+      </div>
+
+      <!-- Gallery grid – real photos from /assets -->
+      <div class="gallery-grid reveal-stagger">
+
+        <!-- Photo 1: 3d_print_01.png -->
+        <div class="gallery-item"
+             style="background-image: url('assets/3d_print_01.png');
+                    background-size: cover;
+                    background-position: center;">
+        </div>
+
+        <!-- Photo 2: 3d_print_04.jpg -->
+        <div class="gallery-item"
+             style="background-image: url('assets/3d_print_04.jpg');
+                    background-size: cover;
+                    background-position: center;">
+        </div>
+
+        <!-- Photo 3: 3d_print_05.jpg -->
+        <div class="gallery-item"
+             style="background-image: url('assets/3d_print_05.jpg');
+                    background-size: cover;
+                    background-position: center;">
+        </div>
+
+        <!-- Photo 4: 3d_print_02.png -->
+        <div class="gallery-item"
+             style="background-image: url('assets/3d_print_02.png');
+                    background-size: cover;
+                    background-position: center;">
+        </div>
+
+        <!-- Photo 5: 3d_print_03.png -->
+        <div class="gallery-item"
+             style="background-image: url('assets/3d_print_03.png');
+                    background-size: cover;
+                    background-position: center;">
+        </div>
+
+        <!-- Photo 6: laser_01.jpg -->
+        <div class="gallery-item"
+             style="background-image: url('assets/laser_01.jpg');
+                    background-size: cover;
+                    background-position: center;">
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       4. REPOSITORIES – LINKS TO DESIGN REPOSITORIES
+       Three external link cards pointing to model/file communities.
+  ============================================================ -->
+  <section id="repos">
+    <div class="container">
+
+      <div class="reveal">
+        <p class="section-label">Inspirace & soubory</p>
+        <h2 class="section-title">Repozitáře <span>návrhů</span></h2>
+        <div class="divider"></div>
+        <p style="color: var(--clr-muted); max-width:580px;">
+          Procházejte komunitní repozitáře plné volně dostupných modelů
+          pro 3D tisk i souborů pro laserové řezání.
+        </p>
+      </div>
+
+      <!-- Each card is a real external link (target="_blank" opens in new tab) -->
+      <div class="repos-grid reveal-stagger">
+
+        <!-- MakerWorld – 3D model sharing platform by Bambu Lab -->
+        <a href="https://makerworld.com/en" target="_blank" rel="noopener" class="repo-card">
+          <span class="repo-icon">🌍</span>
+          <span class="repo-name">MakerWorld</span>
+          <span class="repo-desc">
+            Velká komunita pro sdílení 3D tiskových modelů od Bambu Lab.
+            Tisíce prověřených souborů zdarma.
+          </span>
+          <span class="repo-arrow">↗</span>
+        </a>
+
+        <!-- Printables – Prusa Research community (Czech language) -->
+        <a href="https://www.printables.com/?lang=cs" target="_blank" rel="noopener" class="repo-card">
+          <span class="repo-icon">🖨️</span>
+          <span class="repo-name">Printables</span>
+          <span class="repo-desc">
+            Komunitní platforma Prusa Research s rozsáhlou knihovnou
+            3D modelů v češtině.
+          </span>
+          <span class="repo-arrow">↗</span>
+        </a>
+
+        <!-- 3Axis – laser cut vector files -->
+        <a href="https://3axis.co/laser-cut/" target="_blank" rel="noopener" class="repo-card">
+          <span class="repo-icon">🔆</span>
+          <span class="repo-name">3Axis – Laser Cut</span>
+          <span class="repo-desc">
+            Bezplatné vektorové soubory pro laserové řezání a gravírování:
+            dekorace, krabičky, písmena a mnoho dalšího.
+          </span>
+          <span class="repo-arrow">↗</span>
+        </a>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       5. SOCIAL NETWORKS
+       Instagram button. Add more .social-btn elements for
+       additional platforms (Facebook, TikTok, YouTube …).
+
+       UPDATE: Replace "michaelthemaker" with your real Instagram handle.
+  ============================================================ -->
+  <section id="social">
+    <div class="container">
+
+      <div class="reveal">
+        <p class="section-label">Sledujte mě</p>
+        <h2 class="section-title">Sociální <span>sítě</span></h2>
+        <div class="divider"></div>
+        <p style="color: var(--clr-muted); max-width:520px;">
+          Hoďte mi follow na Instagramu! 
+          Uvidíte tam moje nové kousky jako první, mrknete se pod pokličku toho, jak tvořím, a občas tam nasdílím i něco z mého osobního života – od cestování až po dobré jídlo. 
+        </p>
+      </div>
+
+      <div class="social-wrapper reveal">
+        <!-- Instagram link button -->
+        <a href="https://www.instagram.com/jor_michal/" target="_blank" rel="noopener"
+           class="social-btn instagram">
+          <!-- Inline SVG icon (no external dependency needed) -->
+          <svg class="social-icon" width="28" height="28" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"
+               aria-hidden="true">
+            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+            <circle cx="12" cy="12" r="4"/>
+            <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>
+          </svg>
+          @MichalJor na Instagramu
+        </a>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       6. CONTACT – KONTAKTNÍ ÚDAJE
+  ============================================================ -->
+  <section id="contact">
+    <div class="container">
+
+      <div class="reveal">
+        <p class="section-label">Zájem o výrobek?</p>
+        <h2 class="section-title">Kontakt &amp; <span>objednávka</span></h2>
+        <div class="divider"></div>
+        <p style="color: var(--clr-muted); max-width:580px;">
+          Pokud máte zájem o výrobek na míru, poptávku nebo jen chcete
+          vědět víc – neváhejte napsat.
+        </p>
+      </div>
+
+      <div class="contact-info reveal">
+
+        <!-- Email -->
+        <div class="contact-detail">
+          <span aria-hidden="true">📧</span>
+          <a href="mailto:michal.jor96@gmail.com">michal.jor96@gmail.com</a>
+        </div>
+
+        <!-- Instagram DM -->
+        <div class="contact-detail">
+          <span aria-hidden="true">📸</span>
+          <a href="https://www.instagram.com/jor_michal/" target="_blank" rel="noopener">
+            @MichalJor (Instagram DM)
+          </a>
+        </div>
+
+        <!-- Location -->
+        <div class="contact-detail">
+          <span aria-hidden="true">📍</span>
+          <span>Jičín, Česká republika</span>
+        </div>
+
+        <!-- Helpful tip for enquiries -->
+        <p style="margin-top: 2rem; font-size:0.88rem; color: var(--clr-muted);">
+          💡 Při poptávce prosím uveďte: co chcete vyrobit, z jakého materiálu,
+          rozměry a termín, do kdy výrobek potřebujete.
+        </p>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       FOOTER
+  ============================================================ -->
+  <footer>
+    <div class="container" style="text-align:center;">
+      <p>© 2026 <span>MichaelTheMaker</span> — Laserové gravírování a 3D tisk</p>
+    </div>
+  </footer>
+
+  <!-- External JavaScript – scroll-reveal & active nav highlight -->
+  <script src="script.js"></script>
+
+</body>
+</html>
