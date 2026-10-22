@@ -1,0 +1,20 @@
+{
+  "name": "michaelthemaker",
+  "version": "1.0.0",
+  "private": true,
+  "description": "MichaelTheMaker – static website (CS/EN) with Playwright end-to-end tests written in TypeScript",
+  "scripts": {
+    "start": "http-server . -p 4173 -c-1",
+    "typecheck": "tsc --noEmit",
+    "test": "playwright test",
+    "test:headed": "playwright test --headed",
+    "test:ui": "playwright test --ui",
+    "test:report": "playwright show-report"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.49.0",
+    "@types/node": "^22.0.0",
+    "http-server": "^14.1.1",
+    "typescript": "^5.6.0"
+  }
+}
